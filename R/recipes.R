@@ -1,6 +1,7 @@
 
 #' @export
 orbital.recipe <- function(x, eqs = NULL, ...) {
+  rlang::check_installed("glue")
   if (!recipes::fully_trained(x)) {
     cli::cli_abort("recipe must be fully trained.")
   }
@@ -15,12 +16,15 @@ orbital.recipe <- function(x, eqs = NULL, ...) {
   n_steps <- length(x$steps)
 
   out <- c(.pred = unname(eqs))
-  for (i in rev(seq_len(n_steps))) {
+  for (step in rev(x$steps)) {
+    if (step$skip) {
+      next
+    }
     res <- tryCatch(
-      orbital(x$steps[[i]], all_vars),
+      orbital(step, all_vars),
       error = function(cnd) {
         if (grepl("not implemented", cnd$message)) {
-          cls <- class(x$steps[[i]])
+          cls <- class(step)
           cls <- setdiff(cls, "step")
   
           cli::cli_abort(

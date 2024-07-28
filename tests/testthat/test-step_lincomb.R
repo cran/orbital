@@ -18,6 +18,33 @@ test_that("step_lincomb works", {
 
   expect_identical(orbital(rec), orbital(rec_exp))
 })
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+
+test_that("step_lincomb only calculates what is sufficient", {
+  # Isn't needed as `step_lincomb()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("step_lincomb works with empty selections", {
+  # Isn't needed as `step_lincomb()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("spark - step_lincomb works", {
+  # Isn't needed as `step_lincomb()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("SQLite - step_lincomb works", {
+  # Isn't needed as `step_lincomb()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("duckdb - step_lincomb works", {
+  # Isn't needed as `step_lincomb()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("arrow - step_lincomb works", {
+  # Isn't needed as `step_lincomb()` doesn't produce code
+  expect_true(TRUE)
 })

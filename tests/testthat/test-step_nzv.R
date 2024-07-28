@@ -18,3 +18,33 @@ test_that("step_nzv works", {
 
   expect_identical(orbital(rec), orbital(rec_exp))
 })
+
+test_that("step_nzv only calculates what is sufficient", {
+  # Isn't needed as `step_nzv()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("step_nzv works with empty selections", {
+  # Isn't needed as `step_nzv()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("spark - step_nzv works", {
+  # Isn't needed as `step_nzv()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("SQLite - step_nzv works", {
+  # Isn't needed as `step_nzv()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("duckdb - step_nzv works", {
+  # Isn't needed as `step_nzv()` doesn't produce code
+  expect_true(TRUE)
+})
+
+test_that("arrow - step_nzv works", {
+  # Isn't needed as `step_nzv()` doesn't produce code
+  expect_true(TRUE)
+})

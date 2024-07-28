@@ -1,9 +1,20 @@
-#' Use orbital in a mutate way
+#' Prediction using orbital objects
 #'
-#' @param .data A data frame that can be used with mutate.
-#' @param x A orbital object.
+#' Running prediction on data frame of remote database table, without needing to
+#' load original packages used to fit model.
+#' 
+#' @param object An [orbital] object.
+#' @param new_data A data frame or remote database table.
+#' @param ... Not currently used.
 #'
-#' @returns A modified data frame.
+#' @details
+#' Using this function should give identical results to running `predict()` or
+#' `bake()` on the orginal object. 
+#' 
+#' The prediction done will only return prediction colunms, a opposed to 
+#' returning all modified functions as done with [orbital_inline()].
+#' 
+#' @returns A modified data frame or remote database table.
 #'
 #' @examplesIf rlang::is_installed(c("recipes", "tidypredict", "workflows"))
 #' library(workflows)
@@ -21,13 +32,13 @@
 #'
 #' orbital_obj <- orbital(wf_fit)
 #'
-#' mtcars %>%
-#'   orbital_predict(orbital_obj)
+#' predict(orbital_obj, mtcars)
 #' @export
-orbital_predict <- function(.data, x) {
-  res <- dplyr::mutate(.data, !!!orbital_inline(x))
+predict.orbital_class <- function(object, new_data, ...) {
+  rlang::check_dots_empty()
+  res <- dplyr::mutate(new_data, !!!orbital_inline(object))
 
-  pred_name <- names(x)[length(x)]
+  pred_name <- names(object)[length(object)]
   res <- dplyr::select(res, dplyr::any_of(pred_name))
 
   res
