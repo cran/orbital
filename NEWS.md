@@ -1,3 +1,17 @@
+# orbital 0.3.0
+
+* `orbital()` has gained `type` argument to change prediction type. (#66)
+
+* `orbital()` now works with `logistic_reg(engine = "glm")` models for class prediction and probability predictions. (#62, #66)
+
+* `orbital()` now works with `boost_tree(engine = "xgboost")` models for class prediction and probability predictions. (#71)
+
+* `orbital()` now works with `decision_tree(engine = "partykit")` models for class prediction and probability predictions. (#77)
+
+* `augment()` method for `orbital()` object have been added. (#55)
+
+* `orbital()` gained `prefix` argument to allow for renaming of prediction columns. (#59)
+
 # orbital 0.2.0
 
 * Support for `step_dummy()`,  `step_impute_mean()`, `step_impute_median()`, `step_impute_mode()`,  `step_unknown()`, `step_novel()`, `step_other()`, `step_BoxCox()`, `step_inverse()`, `step_mutate()`, `step_sqrt()`, `step_indicate_na()`, `step_range()`, `step_intercept()`, `step_ratio()`, `step_lag()`, `step_log()`, `step_rename()` has been added. (#17)

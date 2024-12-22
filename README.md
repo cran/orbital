@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# orbital
+# orbital <a href="https://orbital.tidymodels.org"><img src="man/figures/logo.png" align="right" height="138" alt="orbital website" /></a>
 
 <!-- badges: start -->
 
@@ -124,7 +124,7 @@ db_mtcars <- copy_to(con, mtcars)
 
 predict(orbital_obj, db_mtcars)
 #> # Source:   SQL [?? x 1]
-#> # Database: sqlite 3.46.0 []
+#> # Database: sqlite 3.47.0 []
 #>    .pred
 #>    <dbl>
 #>  1  22.6
@@ -152,9 +152,6 @@ library(sparklyr)
 #> The following object is masked from 'package:stats':
 #> 
 #>     filter
-```
-
-``` r
 sc <- spark_connect(master = "local")
 
 sc_mtcars <- copy_to(sc, mtcars, overwrite = TRUE)
