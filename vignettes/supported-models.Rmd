@@ -35,7 +35,7 @@ tibble::tribble(
   "`cubist_rules()`",     "`\"Cubist\"`",       "✅",     "❌",    "❌",
   "`decision_tree()`",    "`\"partykit\"`",     "✅",     "✅",    "✅",
   "`linear_reg()`",       "`\"lm\"`",           "✅",     "❌",    "❌",
-  "`linear_reg()`",       "`\"glmnet\"`",       "⚪",     "❌",    "❌",
+  "`linear_reg()`",       "`\"glmnet\"`",       "✅",     "❌",    "❌",
   "`logistic_reg()`",     "`\"glm\"`",          "❌",     "✅",    "✅",
   "`logistic_reg()`",     "`\"glmnet\"`",       "❌",     "⚪",    "⚪",
   "`mars()`",             "`\"earth\"`",        "✅",     "⚪",    "⚪",
@@ -105,3 +105,13 @@ The following `r length(steps)` recipes steps are supported
 #| echo: false
 cat(paste0("- `", steps, "()`\n"))
 ```
+
+## tailor adjustments
+
+The following 4 tailor methods are supported
+
+
+- `tailor::adjust_equivocal_zone()`
+- `tailor::adjust_numeric_range()`
+- `tailor::adjust_predictions_custom()`
+- `tailor::adjust_probability_threshold()`

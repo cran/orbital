@@ -1,3 +1,15 @@
+# orbital 0.4.0
+
+* Added support for tailor package and its integration into workflows. The following adjustments have gained `orbital()` support. (#103)
+    - `adjust_equivocal_zone()`
+    - `adjust_numeric_range()`
+    - `adjust_predictions_custom()`
+    - `adjust_probability_threshold()`
+
+* Added `show_query()` method for orbital objects. (#106)
+
+* Fixed printing bug where output would get malformed if coefficients had similarities. (#115)
+
 # orbital 0.3.1
 
 * Fixed bug where PCA steps didn't work if they were trained with more than 99 predictors. (#82)

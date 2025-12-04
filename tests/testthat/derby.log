@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Wed Jul 02 15:56:42 PDT 2025:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0197-cd5b-4d6a-0000591ab428 
-on database directory memory:/Users/emilhvitfeldt/Github/orbital/tests/testthat/databaseName=metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@4ffdc17 
+Tue Nov 18 09:22:46 PST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-019a-97fd-864c-00005a057d30 
+on database directory memory:/Users/emilhvitfeldt/Github/orbital/tests/testthat/databaseName=metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@39dfabc 
 Loaded from file:/Users/emilhvitfeldt/spark/spark-3.3.4-bin-hadoop3/jars/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_451-b10
+java.runtime.version=1.8.0_461-b11
 user.dir=/Users/emilhvitfeldt/Github/orbital/tests/testthat
 os.name=Mac OS X
 os.arch=aarch64
-os.version=15.5
+os.version=15.6
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
