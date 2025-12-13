@@ -1,7 +1,7 @@
-697cef25fd832c794b9fffe60bbccbbb *DESCRIPTION
+e3f53bd599fe39170bc2db6e2dfa9ab7 *DESCRIPTION
 a6667c7661a11b8a7b9e38fd694c270a *LICENSE
 9d56a5efd2c4cea4bbae0ab07a03edee *NAMESPACE
-5de6632c71f7574bcb780fb9bf8a7ffb *NEWS.md
+6165870d1104bf5bb31f30ce994804ba *NEWS.md
 8b1c0378b76081220de6e63b170c0713 *R/aaa.R
 b5627a0a7611a931ddd4399e310929d3 *R/adjust_equivocal_zone.R
 c3007145ee8b16ec870703dfab3bfbd9 *R/adjust_numeric_range.R
@@ -14,7 +14,7 @@ bba57e8ea5026fb1ec0fbb058332e177 *R/adjust_probability_threshold.R
 1fa37d21330ebeb97719009a92185997 *R/last_fit.R
 5f112d4994f49da23b1cea8755ba4ce0 *R/model-glm.R
 942743155f698008a408649a5fb3dcd8 *R/model-partykit.R
-453dd53e7232bbd58e1f68c75a6debff *R/model-xgboost.R
+958950555f8cd437e8f26009762103d3 *R/model-xgboost.R
 59030a05ad69575d963a9aae59b17556 *R/orbital.R
 58160142db7c1402a2db197dc755200d *R/parsnip.R
 fb9828c08a193941ef63a8ffa54de02e *R/predict.R
@@ -73,11 +73,11 @@ b2810bf418232983a6047cba2e2f14a8 *R/step_smotenc.R
 c6eb2143edc4e2b1788a0715878b896e *R/tailor.R
 6622fe3fa427845f9307b7d6e11a331c *R/utils.R
 527c6f0dab8e12ff28b7b1e2a48afe0a *R/workflows.R
-ee9546cea5b72253b76fbf3fffbd70c2 *README.md
-6c15bf1fc2066e9f6583968b43e6d053 *build/vignette.rds
+919aa36cb28e1b906bc766f83bae3ba4 *README.md
+29440ca5b60dc474efb01ca8d5df979a *build/vignette.rds
 e1d50b5e10716a77d44e020b59879fa2 *inst/doc/supported-models.R
 d303476d05e05334aae23f0c901c3178 *inst/doc/supported-models.Rmd
-be0d7a6766fed8933448796f8eedcd71 *inst/doc/supported-models.html
+f6f1123e03ff4594803272afead4a6a4 *inst/doc/supported-models.html
 883c42ed98097dc8e9e9ed7b085def99 *man/augment.orbital_class.Rd
 5a370f5a4b06da17e758fe4f66746be3 *man/figures/logo.png
 7aac8b28e5681e73b09ed4c89a87747a *man/orbital.Rd
@@ -108,7 +108,7 @@ cf8f0cc642032f49b66f597dadef6f8d *tests/testthat/_snaps/step_smote.md
 938c644455bc312adbeebe45a8f316d8 *tests/testthat/_snaps/step_tomek.md
 31f7a570873da1e4ec0bd1a08699d60a *tests/testthat/_snaps/step_upsample.md
 f3897cfc38fe668ff57bb96757cf5dbc *tests/testthat/_snaps/workflows.md
-5b6480074cae5c04bb687f7894555c51 *tests/testthat/derby.log
+06ce92989be154604cb21d3eb4c90f21 *tests/testthat/derby.log
 73a62c5b29289f475d021fc692ecc5f5 *tests/testthat/helper-context.R
 3cb48b098d1bf4c6df17e8a09ba08d67 *tests/testthat/helper-initialize.R
 435c96261653bd8d2365096caca4ef6f *tests/testthat/helper-reporter.R
@@ -123,7 +123,7 @@ ca897f83cee1461645b965719afe1cd8 *tests/testthat/test-dt.R
 86de4fd53b1ba1d71b11b967dae4a1df *tests/testthat/test-json.R
 ad17a73386335fbd5c440f14848e7fb4 *tests/testthat/test-model-glm.R
 bdaf384c019eab321f64b7b36eb4486c *tests/testthat/test-model-partykit.R
-904041977eaaffc0bcd953db96effba6 *tests/testthat/test-model-xgboost.R
+adfa957636768310caa8ec64cdd1146c *tests/testthat/test-model-xgboost.R
 c14234f4cd5a540a5672cb1b0571e216 *tests/testthat/test-orbital.R
 e231a3380359bb79c01ef5acbfce6612 *tests/testthat/test-parsnip.R
 741aa58d323751a636fc09972d35931e *tests/testthat/test-predict.R

@@ -1,3 +1,7 @@
+# orbital 0.4.1
+
+* Make work with new versions of xgboost. (#119)
+
 # orbital 0.4.0
 
 * Added support for tailor package and its integration into workflows. The following adjustments have gained `orbital()` support. (#103)
