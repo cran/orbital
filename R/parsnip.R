@@ -1,12 +1,32 @@
 #' @export
-orbital.model_fit <- function(x, ..., prefix = ".pred", type = NULL) {
+orbital.model_fit <- function(
+  x,
+  ...,
+  prefix = ".pred",
+  type = NULL,
+  separate_trees = FALSE
+) {
   mode <- x$spec$mode
   check_mode(mode)
   check_type(type, mode)
   type <- default_type(type)
 
+  extra_args <- list()
+  if (inherits(x$fit, "glmnet")) {
+    extra_args$penalty <- rlang::eval_tidy(x$spec$args$penalty)
+  }
+
   res <- try(
-    orbital(x$fit, mode = mode, type = type, lvl = x$lvl),
+    rlang::exec(
+      orbital,
+      x$fit,
+      mode = mode,
+      type = type,
+      lvl = x$lvl,
+      separate_trees = separate_trees,
+      prefix = prefix,
+      !!!extra_args
+    ),
     silent = TRUE
   )
 
@@ -30,7 +50,7 @@ orbital.model_fit <- function(x, ..., prefix = ".pred", type = NULL) {
   }
 
   if (is.language(res)) {
-    res <- deparse1(res)
+    res <- deparse1(res, control = "digits17")
   }
 
   res <- namespace_case_when(res)
@@ -41,7 +61,11 @@ orbital.model_fit <- function(x, ..., prefix = ".pred", type = NULL) {
 
 set_pred_names <- function(res, x, mode, type, prefix) {
   if (mode == "regression") {
-    res <- stats::setNames(res, prefix)
+    # Only rename if single element (separate_trees = FALSE)
+    # When separate_trees = TRUE, names are already set correctly
+    if (length(res) == 1) {
+      res <- stats::setNames(res, prefix)
+    }
     attr(res, "pred_names") <- prefix
   }
 
@@ -67,6 +91,16 @@ set_pred_names <- function(res, x, mode, type, prefix) {
     eq_names[prob_ind] <- prob_names
 
     names(res) <- eq_names
+
+    # Replace placeholder references in expressions with actual column names
+    if ("prob" %in% type && length(prob_names) >= 2) {
+      res <- gsub(
+        "`orbital_tmp_prob_name1`",
+        paste0("`", prob_names[1], "`"),
+        res,
+        fixed = TRUE
+      )
+    }
   }
 
   res

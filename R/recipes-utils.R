@@ -12,8 +12,8 @@ lencode_helper <- function(x, all_vars) {
     values <- mapping[["..value"]][!new_ind]
     default <- mapping[["..value"]][new_ind]
 
-    eq <- glue::glue("{col} == \"{levels}\" ~ {values}")
-    eq <- c(eq, glue::glue(".default = {default}"))
+    eq <- glue::glue("{col} == \"{levels}\" ~ {format_numeric(values)}")
+    eq <- c(eq, glue::glue(".default = {format_numeric(default)}"))
     eq <- paste(eq, collapse = ", ")
     eq <- glue::glue("dplyr::case_when({eq})")
 
@@ -50,7 +50,9 @@ pca_helper <- function(rot, prefix, all_vars) {
 
   for (i in seq_len(sum(used_vars))) {
     non_zero <- rot[, i] != 0
-    terms <- glue::glue("{row_nms[non_zero]} * {rot[, i][non_zero]}")
+    terms <- glue::glue(
+      "{row_nms[non_zero]} * {format_numeric(rot[, i][non_zero])}"
+    )
     if (length(terms) > n_wrap) {
       split_ind <- rep(
         seq(1, ceiling(length(terms) / n_wrap)),
@@ -78,4 +80,164 @@ pca_helper <- function(rot, prefix, all_vars) {
 
 pca_naming <- function(x, prefix) {
   gsub(paste0(prefix, "0+"), prefix, x)
+}
+
+spline_helper <- function(x, all_vars, spline_fn) {
+  results <- x$results
+
+  var_names <- names(results)
+  keep_vars <- vapply(
+    var_names,
+    function(var) {
+      n_cols <- results[[var]]$dim[2]
+      out_names <- recipes::names0(n_cols, paste0(var, "_"))
+      any(out_names %in% all_vars)
+    },
+    logical(1)
+  )
+
+  results <- results[keep_vars]
+
+  if (length(results) == 0) {
+    return(NULL)
+  }
+
+  out <- character()
+
+  for (var in names(results)) {
+    info <- results[[var]]
+    n_basis <- info$dim[2]
+
+    out_names <- recipes::names0(n_basis, paste0(var, "_"))
+    needed <- out_names %in% all_vars
+
+    if (!any(needed)) {
+      next
+    }
+
+    knots <- info$knots
+    boundary_knots <- info$Boundary.knots
+    all_knots <- c(boundary_knots[1], knots, boundary_knots[2])
+    n_intervals <- length(all_knots) - 1
+
+    # Get polynomial degree (natural splines are always cubic, B-splines can vary)
+    # C-splines and I-splines need +2 because they are integrals of lower-degree splines
+    base_degree <- if (!is.null(info$degree)) info$degree else 3L
+    spline_type <- info$.fn
+    if (!is.null(spline_type) && spline_type %in% c("cSpline", "iSpline")) {
+      poly_degree <- base_degree + 2L
+    } else {
+      poly_degree <- base_degree
+    }
+
+    for (basis_idx in which(needed)) {
+      out_name <- out_names[basis_idx]
+      coefs_list <- list()
+
+      for (interval_idx in seq_len(n_intervals)) {
+        x_low <- all_knots[interval_idx]
+        x_high <- all_knots[interval_idx + 1]
+        x_sample <- seq(x_low + 1e-6, x_high - 1e-6, length.out = 20)
+
+        spline_args <- list(
+          x = x_sample,
+          knots = knots,
+          Boundary.knots = boundary_knots,
+          intercept = info$intercept
+        )
+        if (!is.null(info$degree)) {
+          spline_args$degree <- info$degree
+        }
+        if (!is.null(info$scale)) {
+          spline_args$scale <- info$scale
+        }
+
+        basis_matrix <- do.call(spline_fn, spline_args)
+        y_sample <- basis_matrix[, basis_idx]
+
+        coefs <- spline_extract_poly_coefs(
+          x_sample,
+          y_sample,
+          degree = poly_degree
+        )
+        coefs_list[[interval_idx]] <- coefs
+      }
+
+      eq <- spline_build_case_when(var, all_knots, coefs_list)
+      names(eq) <- out_name
+      out <- c(out, eq)
+    }
+  }
+
+  out
+}
+
+spline_extract_poly_coefs <- function(x_vals, y_vals, degree = 3) {
+  if (all(abs(y_vals) < 1e-14)) {
+    return(rep(0, degree + 1))
+  }
+
+  fit <- stats::lm(y_vals ~ poly(x_vals, degree, raw = TRUE))
+  coefs <- stats::coef(fit)
+  coefs[is.na(coefs)] <- 0
+  names(coefs) <- NULL
+  coefs
+}
+
+spline_build_case_when <- function(var, all_knots, coefs_list) {
+  n_intervals <- length(coefs_list)
+
+  # Single interval: just return the polynomial expression directly
+  if (n_intervals == 1) {
+    return(spline_build_poly_expr(var, coefs_list[[1]]))
+  }
+
+  conditions <- character(n_intervals)
+
+  for (i in seq_len(n_intervals)) {
+    coefs <- coefs_list[[i]]
+
+    poly_expr <- spline_build_poly_expr(var, coefs)
+
+    if (i < n_intervals) {
+      conditions[i] <- glue::glue(
+        "{var} <= {format_numeric(all_knots[i + 1])} ~ {poly_expr}"
+      )
+    } else {
+      conditions[i] <- glue::glue("TRUE ~ {poly_expr}")
+    }
+  }
+
+  eq <- paste(conditions, collapse = ", ")
+  glue::glue("dplyr::case_when({eq})")
+}
+
+spline_build_poly_expr <- function(var, coefs) {
+  if (all(abs(coefs) < 1e-14)) {
+    return("0")
+  }
+
+  terms <- character()
+
+  if (abs(coefs[1]) >= 1e-14) {
+    terms <- c(terms, format_numeric(coefs[1]))
+  }
+
+  for (power in seq_along(coefs[-1])) {
+    coef_val <- coefs[power + 1]
+    if (abs(coef_val) >= 1e-14) {
+      coef_str <- format_numeric(coef_val)
+      if (power == 1) {
+        terms <- c(terms, glue::glue("{coef_str} * {var}"))
+      } else {
+        terms <- c(terms, glue::glue("{coef_str} * {var}^{power}"))
+      }
+    }
+  }
+
+  if (length(terms) == 0) {
+    return("0")
+  }
+
+  paste(terms, collapse = " + ")
 }

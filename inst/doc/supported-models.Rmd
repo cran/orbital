@@ -1,5 +1,8 @@
 ---
 title: "Supported Models and recipes steps"
+description: >
+  A complete list of supported parsnip models, recipes steps, and tailor
+  adjustments that can be converted to orbital objects.
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Supported Models and recipes steps}
@@ -31,18 +34,22 @@ library(dplyr)
 
 tibble::tribble(
   ~parsnip,               ~engine,              ~numeric, ~class, ~prob,
+  "`boost_tree()`",       "`\"catboost\"`",     "✅",     "✅",    "✅",
+  "`boost_tree()`",       "`\"lightgbm\"`",     "✅",     "✅",    "✅",
   "`boost_tree()`",       "`\"xgboost\"`",      "✅",     "✅",    "✅",
   "`cubist_rules()`",     "`\"Cubist\"`",       "✅",     "❌",    "❌",
   "`decision_tree()`",    "`\"partykit\"`",     "✅",     "✅",    "✅",
+  "`decision_tree()`",    "`\"rpart\"`",        "✅",     "✅",    "✅",
   "`linear_reg()`",       "`\"lm\"`",           "✅",     "❌",    "❌",
   "`linear_reg()`",       "`\"glmnet\"`",       "✅",     "❌",    "❌",
   "`logistic_reg()`",     "`\"glm\"`",          "❌",     "✅",    "✅",
-  "`logistic_reg()`",     "`\"glmnet\"`",       "❌",     "⚪",    "⚪",
-  "`mars()`",             "`\"earth\"`",        "✅",     "⚪",    "⚪",
+  "`logistic_reg()`",     "`\"glmnet\"`",       "❌",     "✅",    "✅",
+  "`mars()`",             "`\"earth\"`",        "✅",     "✅",    "✅",
+  "`multinom_reg()`",     "`\"glmnet\"`",       "❌",     "✅",    "✅",
   "`naive_Bayes()`",      "`\"naivebayes\"`",   "❌",     "⚪",    "⚪",
-  "`nearest_neighbor()`", "`any`",              "❌",     "❌",    "❌", 
-  "`rand_forest()`",      "`\"randomForest\"`", "✅",     "⚪",    "⚪",
-  "`rand_forest()`",      "`\"ranger\"`",       "✅",     "⚪",    "⚪"
+  "`nearest_neighbor()`", "`any`",              "❌",     "❌",    "❌",
+  "`rand_forest()`",      "`\"randomForest\"`", "✅",     "✅",    "✅",
+  "`rand_forest()`",      "`\"ranger\"`",       "✅",     "✅",    "✅"
 ) |>
   gt() |>
   tab_spanner(
@@ -71,8 +78,6 @@ tibble::tribble(
     columns = c(parsnip, engine)
   )
 ```
-
-Creating orbital objects of **ranger** models takes around 1 second per tree. This is in part because the resulting SQL is quite large, making it hard to use on many platforms unless care is taken with regard to hyperparameters and the data.
 
 ## Recipes steps
 

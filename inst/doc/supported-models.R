@@ -9,18 +9,22 @@ library(dplyr)
 
 tibble::tribble(
   ~parsnip,               ~engine,              ~numeric, ~class, ~prob,
+  "`boost_tree()`",       "`\"catboost\"`",     "✅",     "✅",    "✅",
+  "`boost_tree()`",       "`\"lightgbm\"`",     "✅",     "✅",    "✅",
   "`boost_tree()`",       "`\"xgboost\"`",      "✅",     "✅",    "✅",
   "`cubist_rules()`",     "`\"Cubist\"`",       "✅",     "❌",    "❌",
   "`decision_tree()`",    "`\"partykit\"`",     "✅",     "✅",    "✅",
+  "`decision_tree()`",    "`\"rpart\"`",        "✅",     "✅",    "✅",
   "`linear_reg()`",       "`\"lm\"`",           "✅",     "❌",    "❌",
   "`linear_reg()`",       "`\"glmnet\"`",       "✅",     "❌",    "❌",
   "`logistic_reg()`",     "`\"glm\"`",          "❌",     "✅",    "✅",
-  "`logistic_reg()`",     "`\"glmnet\"`",       "❌",     "⚪",    "⚪",
-  "`mars()`",             "`\"earth\"`",        "✅",     "⚪",    "⚪",
+  "`logistic_reg()`",     "`\"glmnet\"`",       "❌",     "✅",    "✅",
+  "`mars()`",             "`\"earth\"`",        "✅",     "✅",    "✅",
+  "`multinom_reg()`",     "`\"glmnet\"`",       "❌",     "✅",    "✅",
   "`naive_Bayes()`",      "`\"naivebayes\"`",   "❌",     "⚪",    "⚪",
-  "`nearest_neighbor()`", "`any`",              "❌",     "❌",    "❌", 
-  "`rand_forest()`",      "`\"randomForest\"`", "✅",     "⚪",    "⚪",
-  "`rand_forest()`",      "`\"ranger\"`",       "✅",     "⚪",    "⚪"
+  "`nearest_neighbor()`", "`any`",              "❌",     "❌",    "❌",
+  "`rand_forest()`",      "`\"randomForest\"`", "✅",     "✅",    "✅",
+  "`rand_forest()`",      "`\"ranger\"`",       "✅",     "✅",    "✅"
 ) |>
   gt() |>
   tab_spanner(
