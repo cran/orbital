@@ -5,3 +5,8 @@ orbital.step_bsmote <- function(x, all_vars, ...) {
     {.arg skip} is {.code FALSE}."
   )
 }
+
+#' @exportS3Method
+estimate_step_chars.step_bsmote <- function(x, ...) {
+  0L
+}

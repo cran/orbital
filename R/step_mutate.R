@@ -8,3 +8,9 @@ orbital.step_mutate <- function(x, all_vars, ...) {
   names(out) <- names(input)
   out
 }
+
+#' @exportS3Method
+estimate_step_chars.step_mutate <- function(x, ...) {
+  n_exprs <- length(x$inputs)
+  as.integer(n_exprs * 50)
+}

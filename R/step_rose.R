@@ -5,3 +5,8 @@ orbital.step_rose <- function(x, all_vars, ...) {
     {.arg skip} is {.code FALSE}."
   )
 }
+
+#' @exportS3Method
+estimate_step_chars.step_rose <- function(x, ...) {
+  0L
+}

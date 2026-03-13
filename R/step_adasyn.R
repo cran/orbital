@@ -5,3 +5,8 @@ orbital.step_adasyn <- function(x, all_vars, ...) {
     {.arg skip} is {.code FALSE}."
   )
 }
+
+#' @exportS3Method
+estimate_step_chars.step_adasyn <- function(x, ...) {
+  0L
+}

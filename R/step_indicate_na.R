@@ -11,8 +11,18 @@ orbital.step_indicate_na <- function(x, all_vars, ...) {
     return(NULL)
   }
 
-  out <- glue::glue("as.integer(is.na({cols}))")
+  out <- glue::glue("dplyr::if_else(is.na({cols}), 1L, 0L)")
 
   names(out) <- col_names
   out
+}
+
+#' @exportS3Method
+estimate_step_chars.step_indicate_na <- function(x, ...) {
+  n_cols <- length(x$columns)
+  if (n_cols == 0) {
+    return(0L)
+  }
+  avg_col_len <- mean(nchar(x$columns))
+  as.integer(n_cols * (25 + avg_col_len))
 }

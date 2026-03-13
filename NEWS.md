@@ -1,3 +1,13 @@
+# orbital 0.5.1
+
+## Improvements
+
+* `estimate_orbital_size()` is a new function that quickly estimates the character count of the orbital expression for a model without generating it. (#144)
+
+## Bug fixes
+
+* `step_dummy()` and `step_indicate_na()` now generate SQL compatible with Snowflake and other databases that don't support casting booleans directly to numeric types. (#145)
+
 # orbital 0.5.0
 
 ## New models
